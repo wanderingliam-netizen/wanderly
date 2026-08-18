@@ -1,0 +1,21 @@
+{
+  "trips": [
+    {
+      "id": "4052d655-b47d-447e-aa0a-54774ed7b600",
+      "destination": "Montreal",
+      "start_date": "2026-08-18",
+      "end_date": "2026-08-26",
+      "budget": 2000.0,
+      "activities": [
+        {
+          "id": "ded2bb21-4525-458c-9d24-518d12c10a2d",
+          "name": "Test 1",
+          "date": "2026-08-19",
+          "time": "",
+          "cost": 100.0,
+          "category": "Food & Drink"
+        }
+      ]
+    }
+  ]
+}
