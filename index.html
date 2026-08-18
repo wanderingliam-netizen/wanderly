@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderly — Travel Better</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">✦</div>
+            <span>Wanderly</span>
+        </div>
+
+        <nav class="nav">
+            <button class="nav-item active" data-page="dashboard">
+                <span>⌂</span> Dashboard
+            </button>
+            <button class="nav-item" data-page="trips">
+                <span>✈</span> My Trips
+            </button>
+            <button class="nav-item" data-page="itinerary">
+                <span>☷</span> Itinerary
+            </button>
+            <button class="nav-item" data-page="budget">
+                <span>◔</span> Budget
+            </button>
+        </nav>
+
+        <div class="sidebar-card">
+            <div class="mini-orb"></div>
+            <strong>Go somewhere new.</strong>
+            <p>Your next great story is waiting.</p>
+        </div>
+
+        <div class="profile">
+            <div class="avatar">W</div>
+            <div><strong>Explorer</strong><small>Travel Planner</small></div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow" id="eyebrow">YOUR TRAVEL SPACE</p>
+                <h1 id="page-title">Good to see you.</h1>
+            </div>
+            <button class="primary-btn" id="new-trip-btn"><span>+</span> Plan a trip</button>
+        </header>
+
+        <section id="dashboard-page" class="page active-page">
+            <div class="hero">
+                <div class="hero-copy">
+                    <span class="pill">✦ READY FOR TAKEOFF</span>
+                    <h2 id="hero-destination">Your next adventure starts here.</h2>
+                    <p id="hero-text">Build trips, organize every day, and keep your travel budget under control.</p>
+                    <div class="hero-actions">
+                        <button class="primary-btn light-btn" id="hero-create">Create a trip</button>
+                        <button class="ghost-btn" data-page-jump="trips">View all trips →</button>
+                    </div>
+                </div>
+                <div class="hero-art">
+                    <div class="sun"></div>
+                    <div class="mountain m1"></div>
+                    <div class="mountain m2"></div>
+                    <div class="plane">✈</div>
+                    <div class="cloud c1"></div>
+                    <div class="cloud c2"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card"><span>✈</span><div><small>TOTAL TRIPS</small><strong id="stat-trips">0</strong></div></div>
+                <div class="stat-card"><span>◔</span><div><small>TOTAL BUDGET</small><strong id="stat-budget">$0</strong></div></div>
+                <div class="stat-card"><span>✦</span><div><small>PLANNED ACTIVITIES</small><strong id="stat-activities">0</strong></div></div>
+                <div class="stat-card"><span>◒</span><div><small>REMAINING</small><strong id="stat-remaining">$0</strong></div></div>
+            </div>
+
+            <div class="dashboard-grid">
+                <section class="panel featured-panel">
+                    <div class="panel-heading">
+                        <div><p class="eyebrow">NEXT UP</p><h3 id="featured-title">No trip selected</h3></div>
+                        <button class="text-btn" id="open-featured">Open trip →</button>
+                    </div>
+                    <div id="featured-content" class="empty-state compact">
+                        <div class="empty-icon">✈</div>
+                        <p>Create a trip and your next destination will appear here.</p>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div><p class="eyebrow">AT A GLANCE</p><h3>Travel snapshot</h3></div>
+                    </div>
+                    <div class="snapshot">
+                        <div><span>Trips planned</span><strong id="snapshot-trips">0</strong></div>
+                        <div><span>Activities</span><strong id="snapshot-activities">0</strong></div>
+                        <div><span>Budget used</span><strong id="snapshot-used">0%</strong></div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="trips-page" class="page">
+            <div class="section-row">
+                <div><h2>Your trips</h2><p>Every journey, all in one place.</p></div>
+                <button class="primary-btn" id="new-trip-btn-2">+ New trip</button>
+            </div>
+            <div id="trips-grid" class="trips-grid"></div>
+        </section>
+
+        <section id="itinerary-page" class="page">
+            <div class="section-row">
+                <div>
+                    <h2 id="itinerary-title">Itinerary</h2>
+                    <p id="itinerary-subtitle">Select a trip to start planning your days.</p>
+                </div>
+                <button class="primary-btn" id="add-activity-btn">+ Add activity</button>
+            </div>
+            <div class="trip-selector-wrap">
+                <label for="trip-selector">CURRENT TRIP</label>
+                <select id="trip-selector"></select>
+            </div>
+            <div id="itinerary-list" class="itinerary-list"></div>
+        </section>
+
+        <section id="budget-page" class="page">
+            <div class="section-row">
+                <div><h2 id="budget-title">Budget</h2><p>See exactly where your travel money is going.</p></div>
+            </div>
+            <div id="budget-content"></div>
+        </section>
+    </main>
+</div>
+
+<div class="modal-backdrop" id="trip-modal">
+    <div class="modal">
+        <button class="modal-close" data-close="trip-modal">×</button>
+        <p class="eyebrow">NEW ADVENTURE</p>
+        <h2>Where are you going?</h2>
+        <form id="trip-form">
+            <label>Destination<input name="destination" placeholder="e.g. Tokyo, Japan" required></label>
+            <div class="form-row">
+                <label>Start date<input name="start_date" type="date" required></label>
+                <label>End date<input name="end_date" type="date" required></label>
+            </div>
+            <label>Trip budget<input name="budget" type="number" min="0" step="0.01" placeholder="1500"></label>
+            <button class="primary-btn form-submit" type="submit">Create my trip ✈</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal-backdrop" id="activity-modal">
+    <div class="modal">
+        <button class="modal-close" data-close="activity-modal">×</button>
+        <p class="eyebrow">BUILD YOUR DAY</p>
+        <h2>Add an activity</h2>
+        <form id="activity-form">
+            <label>Activity<input name="name" placeholder="e.g. Sunset cruise" required></label>
+            <div class="form-row">
+                <label>Date<input name="date" type="date"></label>
+                <label>Time<input name="time" type="time"></label>
+            </div>
+            <div class="form-row">
+                <label>Category
+                    <select name="category">
+                        <option>Experience</option>
+                        <option>Food & Drink</option>
+                        <option>Transport</option>
+                        <option>Sightseeing</option>
+                        <option>Accommodation</option>
+                    </select>
+                </label>
+                <label>Cost<input name="cost" type="number" min="0" step="0.01" placeholder="0"></label>
+            </div>
+            <button class="primary-btn form-submit" type="submit">Add to itinerary</button>
+        </form>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
